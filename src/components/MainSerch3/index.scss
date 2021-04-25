@@ -1,0 +1,194 @@
+.main-serch {
+  max-width: 1080px;
+  margin: 160px auto;
+  display: grid;
+  & .field {
+    display: grid;
+    grid-template-columns: 548px 388px 112px;
+    grid-gap: 8px;
+    grid-template-areas: 'repository-title dependencies-title empty'
+                         'repository dependencies button';
+    margin-right: 8px;
+    > h3 {
+      & .tooltip {
+        display: inline-flex;
+        width: 16px;
+        height: 16px;
+        background: #F1F3F9;
+        border-radius: 50%;
+        justify-content: center;
+        align-items: center;
+        margin-left: 8px;
+        color: #818B9B;
+        cursor: pointer;
+      }
+      &[class='repository-title'] {
+        grid-area: repository-title;
+      }
+      &[class='dependencies-title'] {
+        grid-area: dependencies-title;
+      }
+    }
+    & .repository {
+      grid-area: repository;
+      position: relative;
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 12px;
+        margin: auto 0;
+        width: 16px;
+        height: 17px;
+        background: url(./../../icons/github.svg) no-repeat;
+      }
+      > input {
+        width: 100%;
+        height: 40px;
+        box-sizing: border-box;
+        padding: 0;
+        padding-left: 41px;
+        margin: 0;
+        border-radius: 4px;
+        background: #F1F3F9;
+        color: #031735;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 500px;
+        border: none;
+        outline: none;
+      }
+    }
+    .dependencies {
+      grid-area: dependencies;
+      position: relative;
+      border-radius: 4px;
+      background: #F1F3F9;
+      & .selectInput {
+        display: block;
+        margin: 0;
+        list-style: none;
+        &-item {
+          > span {
+            display: flex;
+            width: 100%;
+            height: 34px;
+            align-items: center;
+            > input {
+              width: 18px;
+              height: 18px;
+              margin: 11px 8px;
+            }
+            > p {
+              display: inline-flex;
+              flex-grow: 1;
+              > span {
+                text-align: end;
+                flex-grow: 1;
+                margin-right: 16px;
+                color: #B2B9C7;
+              }
+            }
+          }
+        }
+        &-active {
+          display: block;
+          position: absolute;
+          box-sizing: border-box;
+          top: 44px;
+          left: 0;
+          width: 368px;
+          height: 187px;
+          border-radius: 4px;
+          background: #fff;
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          overflow-y: scroll;
+          &::-webkit-scrollbar {
+            width: 2px;
+          }
+          &::-webkit-scrollbar-thumb {
+            background: #818B9B;
+            border-radius: 1px;
+          }
+        }
+      }
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 12px;
+        margin: auto 0;
+        width: 21px;
+        height: 21px;
+        background: url(./../../icons/repository.svg) no-repeat;
+      }
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 12px;
+        bottom: 0;
+        margin: auto 0;
+        width: 18px;
+        height: 10px;
+        background: url(./../../icons/more_down.svg) no-repeat;
+      }
+    }
+    & .button {
+      width: 100%;
+      height: 40px;
+      grid-area: 'button';
+      background: #C7F5E8;
+      border-radius: 4px;
+      outline: none;
+      border: none;
+      &-active {
+        background: #4ECEA9;
+      }
+    }
+    & .empty {
+      grid-area: empty;
+    }
+  }
+  & .information {
+    display: grid;
+    grid-template-columns: 548px 348px;
+    grid-gap: 8px;
+    margin-top: 8px;
+    & .errors {
+      > p {
+        color: #E91A3F;
+      }
+    }
+    & .tags {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap;
+      & .tag {
+        background: #F1F3F9;
+        border-radius: 4px;
+        margin: 0 8px 8px 0;
+        display: flex;
+        align-items: center;
+        padding: 4px 8px;
+        > p {
+          font-size: 14px;
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+}
+// .shadow {
+//   position: fixed;
+//   top: 0;
+//   right: 0;
+//   bottom: 0;
+//   left: 0;
+//   background: red;
+// }

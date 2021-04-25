@@ -60,45 +60,7 @@
         background: url(./../../icons/github.svg) no-repeat;
       }
     }
-    & .idependencies {
-      grid-area: idependencies;
-      position: relative;
-      > ul {
-        position: absolute;
-        box-sizing: border-box;
-        top: 44px;
-        left: 0;
-        width: 368px;
-        height: 187px;
-        border-radius: 4px;
-        background: #fff;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-      }
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 12px;
-        margin: auto 0;
-        width: 21px;
-        height: 21px;
-        background: url(./../../icons/repository.svg) no-repeat;
-      }
-      &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 12px;
-        bottom: 0;
-        margin: auto 0;
-        width: 18px;
-        height: 10px;
-        background: url(./../../icons/more_down.svg) no-repeat;
-      }
-    }
+    
     & .button {
       width: 100%;
       height: 40px;
@@ -107,11 +69,15 @@
       border-radius: 4px;
       outline: none;
       border: none;
+      &-active {
+        background: #4ECEA9;
+      }
     }
     & .empty {
       grid-area: empty;
     }
   }
+  
   & .information {
     display: grid;
     grid-template-columns: 548px 348px;
@@ -140,5 +106,86 @@
         }
       }
     }
+  }
+}
+.idependencies {
+  grid-area: idependencies;
+  position: relative;
+  border-radius: 4px;
+  background: #F1F3F9;
+  & .selectInput {
+    display: none;
+    &-active {
+      display: block;
+      position: absolute;
+      box-sizing: border-box;
+      top: 44px;
+      left: 0;
+      width: 368px;
+      height: 187px;
+      border-radius: 4px;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      overflow-y: scroll;
+      &::-webkit-scrollbar {
+        width: 2px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #818B9B;
+        border-radius: 1px;
+      }
+      & .selectInput-item {
+        > span {
+          display: flex;
+          align-items: center;
+          > input {
+            display: inline-block;
+            box-sizing: border-box;
+            width: 18px;
+            height: 18px;
+            border: 1px solid #B2B9C7;
+            border-radius: 4px;
+            margin: 8px 12px;
+          }
+        }
+        & .dep {
+          text-align: end;
+          flex-grow: 1;
+          margin-right: 16px;
+          color: #B2B9C7;
+        }
+        &-active {
+          & .checkbox {
+            background: url(./../../icons/chek.svg);
+            border: none;
+          }
+        }
+      }
+    }
+    
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 12px;
+    margin: auto 0;
+    width: 21px;
+    height: 21px;
+    background: url(./../../icons/repository.svg) no-repeat;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 12px;
+    bottom: 0;
+    margin: auto 0;
+    width: 18px;
+    height: 10px;
+    background: url(./../../icons/more_down.svg) no-repeat;
   }
 }
