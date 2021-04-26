@@ -10,6 +10,9 @@
                          'repository dependencies button';
     margin-right: 8px;
     > h3 {
+      font-style: 16px;
+      font-weight: normal;
+      margin: 0;
       & .tooltip {
         display: inline-flex;
         width: 16px;
@@ -66,10 +69,42 @@
       border-radius: 4px;
       background: #F1F3F9;
       & .selectInput {
-        display: block;
+        display: none;
         margin: 0;
         list-style: none;
+        &-active {
+          display: block ;
+          position: absolute;
+          box-sizing: border-box;
+          top: 44px;
+          left: 0;
+          width: 368px;
+          max-height: 187px;
+          border-radius: 4px;
+          background: #fff;
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          overflow-y: scroll;
+          &::-webkit-scrollbar {
+            width: 2px;
+          }
+          &::-webkit-scrollbar-thumb {
+            background: #818B9B;
+            border-radius: 1px;
+          }
+        }
         &-item {
+          margin: 0;
+          width: 100%;
+          max-width: 550px;
+          z-index: 109;
+          position: relative;
+          overflow: hidden;
+          -webkit-animation-name: animatetop;
+          -webkit-animation-duration: 0.4s;
+          animation-name: slide-in;
+          animation-duration: 0.5s;
           > span {
             display: flex;
             width: 100%;
@@ -92,28 +127,7 @@
             }
           }
         }
-        &-active {
-          display: block;
-          position: absolute;
-          box-sizing: border-box;
-          top: 44px;
-          left: 0;
-          width: 368px;
-          height: 187px;
-          border-radius: 4px;
-          background: #fff;
-          margin: 0;
-          padding: 0;
-          list-style: none;
-          overflow-y: scroll;
-          &::-webkit-scrollbar {
-            width: 2px;
-          }
-          &::-webkit-scrollbar-thumb {
-            background: #818B9B;
-            border-radius: 1px;
-          }
-        }
+        
       }
       &::before {
         content: '';
@@ -142,16 +156,33 @@
       width: 100%;
       height: 40px;
       grid-area: 'button';
-      background: #C7F5E8;
+      background: #4ECEA9;
       border-radius: 4px;
       outline: none;
       border: none;
-      &-active {
-        background: #4ECEA9;
-      }
+      cursor: pointer;
     }
     & .empty {
       grid-area: empty;
+    }
+    .shadow {
+      &-open {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation-name: appear;
+        animation-duration: 300ms;
+      }
+      &-close{
+        display: none;
+      }
     }
   }
   & .information {
@@ -176,6 +207,7 @@
         display: flex;
         align-items: center;
         padding: 4px 8px;
+        cursor: pointer;
         > p {
           font-size: 14px;
           margin-right: 8px;
@@ -184,11 +216,19 @@
     }
   }
 }
-// .shadow {
-//   position: fixed;
-//   top: 0;
-//   right: 0;
-//   bottom: 0;
-//   left: 0;
-//   background: red;
-// }
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slide-in {
+  from {
+    transform: translateY(-150px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import FirstInput from './FirstInput'
 import close from './../../icons/close.svg'
 import './index.scss'
+import SecondInput from './SecondInput'
 
-interface DependencesProps {
+export interface DependencesProps {
   id: string
   label: string
   isActive: boolean
@@ -59,6 +60,10 @@ const MainSearch:React.FC = () => {
   const [repository, setRepository] = useState<string>('')
   // Состояние открытия selekt (потом удалить)
   const [dependenciesList, setDependenciesList] = useState('selectInput')
+  const [errors, setErrors] = useState('')
+  const closeDependenciesList = () => setDependenciesList('selectInput')
+  const openDependenciesList = () => setDependenciesList('selectInput selectInput-active')
+
   // Состояние полученых зависимостей
   const [dependences, setDependences] = useState<DependencesProps[]>([])
   
@@ -73,7 +78,13 @@ const MainSearch:React.FC = () => {
     const deps = testAPI.find(o => o.nameRepository === value)
     if (deps !== undefined) {
       setDependences(deps.dependences)
-    } 
+      if (deps.dependences.length === 0){
+        setErrors('В репозитории отсутствуют зависимости')
+      }
+    } else if (deps === undefined){
+      setErrors('Репозиторий не найден')
+    }
+
   }
   
   // По нажатию Enter сравнивает с данными из репозиторя
@@ -81,6 +92,8 @@ const MainSearch:React.FC = () => {
     switch (key) {
       case 'Enter':
         searchForMatches(repository)
+        openDependenciesList()
+        openVisible()
         break
     }
   }
@@ -92,50 +105,60 @@ const MainSearch:React.FC = () => {
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-
-    const { repository } = event.target as typeof event.target & {
-      repository: { value:string }
-    }
-
-  }
-
-  const changeHandlerDependenciesList = (event: React.FocusEvent<any>) => {
-    setDependenciesList('selectInput selectInput-active')
+    // const { repository } = event.target as typeof event.target & {
+    //   repository: { value:string }
+    // }
+      // console.log(event.currentTarget);
+      
   }
 
   // Второй инпут
-  const [values, setValues] = useState<{}[]>([])
+  const [values, setValues] = useState<DependencesProps[]>([])
 
   // Добавляет данные в тэги и в состояние значений
   const addValues = (val:DependencesProps):void => {
+    val.isActive = !val.isActive 
     setValues((prev:any) => [...prev, val] )
   }
 
   // Получает данные от выбранных элементов зависимости
   const addHandler = (e: React.MouseEvent<HTMLInputElement>) => {
+    e.preventDefault()
     const id = e.currentTarget.id
     const dep = dependences.find(o => o.id === id)
     if (dep !== undefined) {
       addValues(dep)
     }
-    
-    // let tr = values.find(el => el === id)
-    // console.log(tr);
-    
-    // if (tr === id ) {
-      //   console.log(tr);
-      //   removeValues(id)
-      // } 
+    if (values.find(o => o.id === id)) {
+      removeValues(id)
     }
-    console.log('зависимости values', values);
- 
-  const removeValues = (val: any) => {
-    setValues(values.filter((v) => v!== val))
+  }
+
+  const removeValues = (id: any) => {
+    values.map((i) => {
+      if (i.id === id) {
+        i.isActive = !i.isActive
+      }
+      return null
+    })
+    setValues(values.filter((v) => v.id !== id))
   }
 
   const removeHandler = (val: any) => {
-    setValues(values.filter((v) => v!== val.currentTarget.innerText))
+    
+    const id = val.currentTarget.id.substr(0, 1)
+    removeValues(id)
+  }
 
+  // Открытие второго инпута
+  const [visible, setVisiblel] = React.useState('shadow-close')
+  const closeVisible = () => {
+    setVisiblel('shadow-close')
+    closeDependenciesList()
+  }
+  const openVisible = () => {
+    setVisiblel('shadow-open')
+    openDependenciesList()
   }
 
   return(
@@ -146,56 +169,33 @@ const MainSearch:React.FC = () => {
           changeHandler={changeHandler}
           repository={repository}
         />
-        <h3 className='dependencies-title' >Зависимости<span className='tooltip'>?</span></h3>
-        <div className="dependencies" onClick={changeHandlerDependenciesList}>
-        <ul className='selectInput selectInput-active'> 
-        {/* <ul className={dependenciesList}>  */}
-          { dependences.map((d) => {
-            return(
-              <li className='selectInput-item' key={d.id}>
-              <span id={d.id} onClick={addHandler}>
-                <input
-                  id={d.id}
-                  // onClick={addHandler}
-                  // checked={d.isActive}
-                  type='checkbox'
-                  defaultValue={d.id}
-                />
-                <p>{ d.label }<span>{'~>'} 12.0</span></p>
-              </span>
-            </li>
-            )
-          }) }
-          </ul>
-        </div>
-        <button className='button button-active'>Найти</button>
+        <SecondInput 
+          dependences={dependences}
+          addHandler={addHandler}
+          visible={visible}
+          closeVisible={closeVisible}
+          openVisible={openVisible}
+          dependenciesList={dependenciesList}
+        />
+        <button 
+          className='button'
+        >Найти</button>
         <div className="empty" />
       </form>
       <div className="information">
         <div className='errors'>
-          <p>Ошибка при попытке найти  репозиторий</p>
+          {/* <p>Ошибка при попытке найти  репозиторий</p> */}
+          <p>{ errors }</p>
         </div>
         <div className='tags'>
-        {/* { values.map((i) => {
-          return (
-            <div className="tag" key={i}>
-              <p onClick={removeHandler}>{ i }</p>
-              <img src={close} alt='sdf' />
-            </div>
-          )
-        }) } */}
-          <div className='tag'>
-            <p>resk {'~>'} 12.0 </p>
-            <img src={close} alt='sdf' />
-          </div>
-          <div className='tag'>
-            <p>resk {'~>'} 12.0 </p>
-            <img src={close} alt='sdf' />
-          </div>
-          <div className='tag'>
-            <p>resk {'~>'} 12.0 </p>
-            <img src={close} alt='sdf' />
-          </div>
+          { values.map((i) => {
+            return (
+              <div id={i.id +'_tag'} className="tag" key={i.id} onClick={removeHandler}>
+                <p >{ i.label }</p>
+                <img src={close} alt='close' />
+              </div>
+            )
+          }) }
         </div>
       </div>
       <p>Для повышения качества поиска по репозиториям, советуем подключить аккаунт компании</p>
