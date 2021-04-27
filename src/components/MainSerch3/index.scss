@@ -156,11 +156,15 @@
       width: 100%;
       height: 40px;
       grid-area: 'button';
-      background: #4ECEA9;
+      background: #C7F5E8;
       border-radius: 4px;
       outline: none;
       border: none;
-      cursor: pointer;
+      cursor: default;
+      &-active {
+        background: #4ECEA9;
+        cursor: pointer;
+      }
     }
     & .empty {
       grid-area: empty;

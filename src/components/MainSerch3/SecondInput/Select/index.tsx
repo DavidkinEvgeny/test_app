@@ -11,8 +11,6 @@ interface SelectProps<T> {
 }
 
 function Select (props: SelectProps<any>) {
-
-      // создаем обработчик нажатия клавиши Esc
   const onKeydown = ({key}: KeyboardEvent) => {
     switch (key) {
       case 'Escape':
@@ -21,15 +19,11 @@ function Select (props: SelectProps<any>) {
     }
   }
 
-  // c помощью useEffect цепляем обработчик к нажатию клавиш
-  // https://ru.reactjs.org/docs/hooks-effect.html
   React.useEffect(() => {
       document.addEventListener('keydown', onKeydown)
       return () => document.removeEventListener('keydown', onKeydown)
   })
 
-
-  // если компонент невидим, то не отображаем его
   if (!props.visible) return null;
 
   return(

@@ -5,7 +5,6 @@ import { DependencesProps } from './../index'
 interface SecondInputProps<T> {
   dependences: T
   addHandler: (item: T) => void
-  checkedHandler?: (item: T) => void
   visible: string
   closeVisible: () => void
   openVisible: () => void
